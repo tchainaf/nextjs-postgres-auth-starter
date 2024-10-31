@@ -1,30 +1,39 @@
-import './globals.css';
+import '@/styles/globals.css';
+import { Roboto, Ubuntu } from 'next/font/google';
 
-import { GeistSans } from 'geist/font/sans';
+const roboto = Roboto({
+  weight: '700',
+  style: ['normal'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto',
+});
 
-let title = 'Next.js + Postgres Auth Starter';
-let description =
-  'This is a Next.js starter kit that uses NextAuth.js for simple email + password login and a Postgres database to persist the data.';
+const ubuntu = Ubuntu({
+  weight: ['400', '700'],
+  style: ['normal'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-ubuntu',
+});
 
 export const metadata = {
-  title,
-  description,
-  twitter: {
-    card: 'summary_large_image',
-    title,
-    description,
-  },
-  metadataBase: new URL('https://nextjs-postgres-auth.vercel.app'),
+  title: 'Calendar Manager',
+  description:
+    'An app built with Next.js to manage your events and appointments and generate a monthly report.',
+  metadataBase: new URL('https://calendar-manager-tchainaf.vercel.app/'),
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en">
-      <body className={GeistSans.variable}>{children}</body>
+    <html lang='pt-BR'>
+      <body className={`${roboto.variable} ${ubuntu.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
