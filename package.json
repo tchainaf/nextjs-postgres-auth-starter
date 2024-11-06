@@ -8,10 +8,13 @@
     "start": "next start",
     "lint": "eslint .",
     "prepare": "husky",
-    "format": "prettier --write --ignore-path .gitignore ."
+    "format": "prettier --write --ignore-path .gitignore .",
+    "migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev",
+    "migrate:prod": "dotenv -e .env.production -- npx prisma migrate deploy"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
+    "@prisma/client": "^5.22.0",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
@@ -21,6 +24,7 @@
     "next": "^14.0.4",
     "next-auth": "5.0.0-beta.4",
     "postgres": "^3.4.3",
+    "prisma": "^5.22.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
