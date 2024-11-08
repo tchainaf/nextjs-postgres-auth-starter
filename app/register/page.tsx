@@ -1,24 +1,40 @@
+import db from 'prisma/db';
 import Link from '@/components/link';
-import { Form } from '@/components/form';
 import { redirect } from 'next/navigation';
-import { createUser, getUser } from '@/app/db';
 import { SubmitButton } from '@/components/submit-button';
+import { UserForm } from '@/components/user-form';
+
+const api_url = process.env.API_URL;
+
+async function register(formData: FormData) {
+  'use server';
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+  const name = formData.get('name') as string;
+  const user = await db.user.findUnique({ where: { email } });
+
+  if (user) {
+    console.error('Failed to sign in: ', 'Usuário já existe');
+    return 'Usuário já existe'; // TODO: Handle errors with useFormStatus
+  } else {
+    await fetch(`${api_url}/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password, name }),
+    })
+      .then(() => {
+        redirect('/login');
+      })
+      .catch((error) => {
+        console.error('Failed to sign in: ', error);
+        return 'Erro ao criar o usuário'; //Lançar popup com erro
+      });
+  }
+}
 
 export default function Login() {
-  async function register(formData: FormData) {
-    'use server';
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const user = await getUser(email);
-
-    if (user.length > 0) {
-      return 'Usuário já existe'; // TODO: Handle errors with useFormStatus
-    } else {
-      await createUser(email, password);
-      redirect('/login');
-    }
-  }
-
   return (
     <div className='flex h-screen w-screen items-center justify-center'>
       <div className='z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl'>
@@ -28,7 +44,7 @@ export default function Login() {
             Crie uma conta com e-mail e senha
           </p>
         </div>
-        <Form action={register}>
+        <UserForm action={register}>
           <SubmitButton>Cadastrar</SubmitButton>
           <p className='text-center text-sm text-gray-600'>
             {'Já tem uma conta? '}
@@ -36,7 +52,7 @@ export default function Login() {
               Entre
             </Link>
           </p>
-        </Form>
+        </UserForm>
       </div>
     </div>
   );

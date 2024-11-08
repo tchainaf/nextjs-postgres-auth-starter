@@ -1,4 +1,4 @@
-export function Form({
+export function UserForm({
   action,
   children,
 }: Readonly<{
@@ -10,6 +10,18 @@ export function Form({
       action={action}
       className='flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16'
     >
+      <div>
+        <label htmlFor='name' className='block text-xs uppercase text-gray-600'>
+          Nome
+        </label>
+        <input
+          id='name'
+          name='name'
+          type='name'
+          required
+          className='mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm'
+        />
+      </div>
       <div>
         <label
           htmlFor='email'
@@ -37,6 +49,21 @@ export function Form({
         <input
           id='password'
           name='password'
+          type='password'
+          required
+          className='mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm'
+        />
+      </div>
+      <div>
+        <label
+          htmlFor='password'
+          className='block text-xs uppercase text-gray-600'
+        >
+          Confirme a senha
+        </label>
+        <input
+          id='confirm-password'
+          name='confirm-password'
           type='password'
           required
           className='mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm'

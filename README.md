@@ -2,7 +2,7 @@
 
 The calendar manager allows users to create, edit, delete and confirm events and generate a monthly report. It is a simple project with the purpose of learning Next.js.
 
-This is a [Next.js](https://nextjs.org/) project based on [Next.js + PostgreSQL Auth Starter](https://github.com/vercel/nextjs-postgres-auth-starter), it uses [NextAuth.js](https://next-auth.js.org/) for simple email + password login, [Drizzle](https://orm.drizzle.team) as the ORM, and a [Neon Postgres](https://vercel.com/postgres) database to persist the data.
+This is a [Next.js](https://nextjs.org/) project based on [Next.js + PostgreSQL Auth Starter](https://github.com/vercel/nextjs-postgres-auth-starter), it uses [NextAuth.js](https://next-auth.js.org/) for simple email + password login, [Prisma](https://www.prisma.io/) as the ORM, and a [Neon Postgres](https://vercel.com/postgres) database to persist the data.
 
 ## Getting Started
 

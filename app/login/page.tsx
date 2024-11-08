@@ -1,9 +1,22 @@
 import Link from '@/components/link';
-import { Form } from '@/components/form';
+import { LoginForm } from '@/components/login-form';
 import { signIn } from '@/app/auth';
 import { SubmitButton } from '@/components/submit-button';
 
 export default function Login() {
+  async function handleLogin(formData: FormData) {
+    'use server';
+    await signIn('credentials', {
+      redirectTo: '/dashboard',
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+    }).catch((error) => {
+      console.error('Failed to sign in: ', error);
+      return 'Erro ao fazer login';
+      //Lançar popup com erro
+    });
+  }
+
   return (
     <div className='flex h-screen w-screen items-center justify-center'>
       <div className='z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl'>
@@ -13,16 +26,7 @@ export default function Login() {
             Insira seu e-mail e senha para acessar
           </p>
         </div>
-        <Form
-          action={async (formData: FormData) => {
-            'use server';
-            await signIn('credentials', {
-              redirectTo: '/dashboard',
-              email: formData.get('email') as string,
-              password: formData.get('password') as string,
-            });
-          }}
-        >
+        <LoginForm action={handleLogin}>
           <SubmitButton>Entrar</SubmitButton>
           <p className='text-center text-sm text-gray-600'>
             {'Não tem uma conta? '}
@@ -30,7 +34,7 @@ export default function Login() {
               Cadastre-se
             </Link>
           </p>
-        </Form>
+        </LoginForm>
       </div>
     </div>
   );

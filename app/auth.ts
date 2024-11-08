@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt-ts';
-import { getUser } from '@/app/db';
+import db from 'prisma/db';
 import { authConfig } from '@/app/auth.config';
 
 export const {
@@ -14,16 +14,14 @@ export const {
   providers: [
     Credentials({
       async authorize({ email, password }: any) {
-        const user = await getUser(email);
-        if (user.length === 0) return null;
-        const passwordsMatch = await compare(password, user[0].password!);
-        if (passwordsMatch) return user[0] as any;
+        const user = await db.user.findUnique({ where: { email } });
+        if (!user) return null;
+
+        const passwordsMatch = await compare(password, user.password);
+        if (passwordsMatch) return user as any;
+        else return null;
       },
     }),
   ],
-  callbacks: {
-    session({ session, token, user }) {
-      return session; // The return type will match the one returned in `useSession()`
-    },
-  },
+  debug: process.env.NODE_ENV === 'development',
 });
